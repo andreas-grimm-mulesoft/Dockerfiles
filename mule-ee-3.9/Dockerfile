@@ -5,11 +5,11 @@
 ###############################################################################
 
 FROM                    java:8-jre
-MAINTAINER              Ken Ng <ken.ng@mulesoft.com>
+MAINTAINER              Andreas Grimm <andreas.grimm@mulesoft.com>
 
 ###############################################################################
 ## Setting up the arguments
-ARG     muleVersion=3.8.1
+ARG     muleVersion=3.9.0
 ARG     muleDistribution=mule-ee-distribution-standalone-$muleVersion.tar.gz
 ARG     muleHome=/opt/mule-enterprise-standalone-$muleVersion
 
@@ -17,7 +17,7 @@ ARG     muleHome=/opt/mule-enterprise-standalone-$muleVersion
 ## Base container configurations
 
 # Configure instance timezone
-RUN     echo 'Asia/Singapore' > /etc/timezone && dpkg-reconfigure tzdata
+RUN     echo 'Europe/Amsterdam' > /etc/timezone && dpkg-reconfigure tzdata
 
 # Install base pre-requisites
 RUN     apt-get update
@@ -32,7 +32,7 @@ RUN     apt-get install --yes --force-yes jq
 ## Install Mule EE
 WORKDIR /opt/
 COPY    ./$muleDistribution /opt/
-RUN     echo "3a49a52f360e5a7e139a654ed698a029 /opt/$muleDistribution" | md5sum -c
+#RUN     echo "3a49a52f360e5a7e139a654ed698a029 /opt/$muleDistribution" | md5sum -c
 RUN     tar -xzvf /opt/$muleDistribution
 RUN     ls
 RUN     ln -s $muleHome/ mule
